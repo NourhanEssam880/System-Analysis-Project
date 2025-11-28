@@ -1,0 +1,385 @@
+*{
+    list-style: none;
+    text-decoration: none;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    outline: 0;
+}
+html{
+    overflow-x: hidden;
+}
+
+body{
+    background: black;
+    color: white;
+    font-family: "poppins",sans-serif;
+    line-height: 1.7;
+}
+
+section{
+    padding: 6rem 0;
+}
+
+section h2{
+    text-align: center;
+    margin-bottom: 4rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5{
+    line-height: 1.2;
+}
+
+h1{
+    font-size: 2.4rem;
+}
+
+h2{
+    font-size: 2rem;
+}
+
+h3{
+   font-size: 1.6rem; 
+}
+
+h4{
+    font-size: 1.3rem;
+}
+
+a{
+    color: white;
+}
+
+img{
+    width: 100%;
+    display: block;
+    object-fit: cover;
+}
+
+.btn{
+    display: inline-block;
+    background: transparent;
+    color: white;
+    padding: 1rem 2rem;
+    border: 3px solid rgb(84, 57, 15);
+    font-weight: 500;
+    border-radius: 2rem;
+    transition: all 400ms ease;
+}
+
+.btn:hover{
+    background: rgb(84, 57, 15);
+    color: white;
+    border-color: rgb(175, 119, 13);
+}
+
+
+
+
+
+
+.navbar{
+    display: flex;
+    gap: 3rem;
+    justify-content: space-around;
+    background-color: rgba(0, 0, 0, 0.368);
+    height: 5rem;
+    position: fixed;
+    width: 100%;
+    align-items: center;
+    top: 0;
+    z-index: 11;
+}
+
+.window-scroll{
+    background: orange;
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.2); 
+}
+
+
+.navbar a{
+    text-decoration: none;
+    color: white;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar button{
+    display: none;
+}
+.links{
+    font-size: 1rem;
+    display: flex;
+    gap: 2.5rem;
+    padding-right: 1rem;
+}
+
+.logo{
+    cursor: pointer;
+    transition: 10s ease;
+}
+.logo:hover{
+    transform: scale(1.8);
+}
+
+.logo a{
+    color: rgb(229, 155, 18);
+    font-size: 3rem;
+    font-weight: 800;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+.logo span{
+    color: rgba(255, 225, 92, 1);
+    text-shadow: 0 0 5px rgba(255, 225, 92, 1),
+                 0 0 10px rgba(255, 225, 92, 1),
+                 0 0 20px rgba(255, 225, 92, 1) ;
+}
+
+.links a{
+    transition: 0.5s ease;
+}
+
+.links a:hover{
+    color: rgb(229, 155, 18);
+    border-bottom: 1.5px solid rgba(255, 225, 92, 1);
+}
+
+
+
+/*HOME*/
+
+.home{
+    margin-top: 5rem;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    /*text-align: center;*/
+    justify-content: center;
+    align-items: center;
+    height: 41rem;
+    background-color: rgba(0, 0, 0, 0.311);
+    width: 100%;
+}
+
+.home-content p{
+    margin: 3rem 0 ;
+    margin-top: 5rem;
+}
+
+.home h3{
+    margin-bottom: 2rem;
+    margin-top: 1rem;
+    font-size: 3.5rem;
+}
+.home h1{
+    font-size: 7rem;
+    font-weight: 700;
+    margin-top: 1.5rem;
+    line-height: 1;
+}
+
+video{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: -1;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+/*.home button{
+    padding: 12px;
+    border: 3px solid rgb(229, 155, 18);
+    border-radius: 6px;
+    background:black;
+    color: #f9f9f9;
+    font-weight: bold;
+    cursor: pointer;
+    gap: 4rem;
+}
+.btns{
+     width: 50%;
+     display: flex;
+    flex-direction: row;
+    gap: 2rem;
+    margin-left: 20rem;
+    margin-top: 2rem;
+}
+.btns :hover{
+    background-color: rgb(229, 155, 18);
+    color: black;
+}*/
+
+.categories{
+    background: rgb(175, 119, 13);
+    color: white;
+    height: 39rem;
+    width: 100%;
+}
+
+.categories h1{
+    line-height: 1;
+    margin-bottom: 3rem;
+}
+
+.categories-container{
+    display: grid;
+    grid-template-columns: 40% 60%;
+}
+
+.categories-left{
+    margin-right: 4rem;
+    margin-left: 10rem;
+}
+
+.categories-left p{
+    margin: 1rem 0 3rem;
+}
+
+.categories-right{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1.2rem;
+    margin-right: 10rem;
+}
+
+.category{
+    background: rgb(84, 57, 15);
+    padding: 2rem;
+    border-radius: 2rem;
+    transition: all 400ms ease;
+}
+
+
+.category:hover{
+    box-shadow: 0 3rem 3rem rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.category:nth-child(2)  .category-icon{
+    background: rgb(126, 126, 5);
+}
+
+.category:nth-child(3)  .category-icon{
+    background: rgb(126, 151, 12);
+}
+
+.category:nth-child(4)  .category-icon{
+    background: rgb(75, 4, 63);
+}
+
+.category:nth-child(5)  .category-icon{
+    background: rgb(121, 90, 181);
+}
+
+.category-icon{
+    background: black;
+    padding: 0.7rem;
+    border-radius: 0.9rem;
+}
+
+.category h5{
+    margin: 2rem 0 1rem;
+}
+
+.category p{
+    font-size: 0.85rem;
+}
+
+
+
+
+
+
+.courses{
+    margin-top: 3rem;
+}
+
+.container-courses{
+    width: 80%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 2rem;
+}
+
+
+.course{
+    background: rgb(175, 119, 13);
+    text-align: center;
+    border: 1px solid transparent;
+    transition: all 400ms ease;
+}
+
+.course:hover{
+    background: transparent;
+    border-color: orange;
+}
+
+.course-info{
+    padding: 2rem;
+}
+
+.course-info p{
+    margin: 1.2rem 0 1.5rem;
+    font-size: 0.7rem;
+}
+
+.btn-more{
+    margin-bottom: 2rem;
+}
+
+
+
+
+
+
+.faqs{
+    background: rgb(175, 119, 13);
+    box-shadow: inset 0 0 3rem rgba(0, 0, 0, 0.5);
+}
+
+.faqs-container{
+    width: 80%;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.faq{
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    height: fit-content;
+    background: rgb(84, 57, 15);
+    cursor: pointer;
+}
+
+.faq h4{
+    font-size: 1rem;
+    line-height: 2.2;
+}
+
+
+
+.faq-icon{
+    align-self: flex-start;
+    font-size: 1.2trem;
+}
+
+.faq p{
+    margin-top: 0.8rem;
+    display: none;
+}
+
+.faq.open p{
+    display: block;
+}
+
