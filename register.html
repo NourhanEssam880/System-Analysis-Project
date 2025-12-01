@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background: #fff;
+      padding:40px 30px;
+      border-radius: 12px;
+      width: 500px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      min-height: 500px;
+    }
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    label {
+      display: block;  
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0 15px;
+      margin-bottom:20px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      margin-top:10px ;
+      background: #4c73ad;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0629c7;
+    }
+    input,button{
+        width:100%;
+        box-sizing: border-box;
+    }
+    #msg {
+      display: none;  
+      text-align: center;
+      margin-bottom: 20px;
+      font-weight: bold;
+
+    }
+    .error-msg {
+      color: red;
+      font-size: 14px;
+      margin-bottom: 10px;
+      display: none; /* hide initially */
+    }
+
+    .toggle-password {
+    margin-top: -10px;
+    margin-bottom: 15px;
+    font-size: 12px;
+    cursor: pointer;
+    color: #4c73ad;
+    display: inline-block;
+    } 
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Create Account</h2>
+    <p id="msg"></p>
+    <form id="registerForm" onsubmit="validateForm(event)">
+      <label>Username</label>
+      <input type="text" id="username" placeholder="Enter username" required>
+      <div id="usernameError" class="error-msg"></div>
+
+       <label>Email</label>
+      <input type="email" id="email" placeholder="Enter email" required>
+      <div id="emailError" class="error-msg"></div>
+
+      <label>Password</label>
+      <input type="password" id="password" placeholder="Enter password" required>
+      <div id="passwordError" class="error-msg"></div>
+      <span class="toggle-password" onclick="togglePassword('password')">Show Password</span>
+
+      <label>Confirm Password</label>
+      <input type="password" id="confirmPassword" placeholder="Confirm password" required>
+      <div id="confirmError" class="error-msg"></div>
+      <span class="toggle-password" onclick="togglePassword('confirmPassword')">Show Password</span>
+
+      <button type="submit">Register</button>
+    </form>
+  </div>
+</body>
+<script>
+  const usernameInput = document.getElementById('username');
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  const confirmInput = document.getElementById('confirmPassword');
+
+  const usernameError = document.getElementById('usernameError');
+  const emailError = document.getElementById('emailError');
+  const passwordError = document.getElementById('passwordError');
+  const confirmError = document.getElementById('confirmError');
+  function togglePassword(id){
+    const input = document.getElementById(id);
+    input.type = input.type === "password" ? "text" : "password";
+  }
+  document.getElementById('registerForm').addEventListener('submit', function(e){
+    e.preventDefault();
+    let valid = true;
+    const usernamePattern = /^[A-Za-z][A-Za-z0-9._-]{2,}$/;
+    if(!usernamePattern.test(usernameInput.value.trim())){
+      usernameError.textContent = 'Username must start with a letter and can include letters, numbers, _, ., - (min 3 chars).';
+      usernameError.style.display = 'block';
+      valid = false;
+    } else {
+      usernameError.style.display = 'none';
+    }
+    const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+    if(!emailPattern.test(emailInput.value.trim())){
+      emailError.textContent = 'Please enter a valid email.';
+      emailError.style.display = 'block';
+      valid = false;
+    } else {
+      emailError.style.display = 'none';
+    }
+    const passwordVal = passwordInput.value.trim();
+    if(passwordVal.length < 6){
+      passwordError.textContent = 'Password must be at least 6 characters.';
+      passwordError.style.display = 'block';
+      valid = false;
+    } else {
+      passwordError.style.display = 'none';
+    }
+    if(confirmInput.value.trim() !== passwordVal){
+      confirmError.textContent = 'Passwords do not match.';
+      confirmError.style.display = 'block';
+      valid = false;
+    } else {
+      confirmError.style.display = 'none';
+    }
+
+    if(valid){
+      const msg = document.getElementById('msg');
+      msg.textContent = 'You registered successfully!';
+      msg.style.color = 'green';
+      msg.style.display = 'block';
+
+      setTimeout(() => window.location.href = 'login.html', 1000);
+    }
+  });
+</script>
+</html>
