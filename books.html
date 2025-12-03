@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Programming Books — Mini Store</title>
+  <style>
+    :root{ --bg:#0f1724; --card:#0b1220; --muted:#9aa4b2; --accent:#7c3aed; --glass: rgba(255,255,255,0.03); }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;color:#e6eef6;background:linear-gradient(180deg,#071021 0%, #081424 60%);}
+    header{display:flex;align-items:center;justify-content:space-between;padding:22px 28px;border-bottom:1px solid rgba(255,255,255,0.03)}
+    .brand{display:flex;gap:14px;align-items:center}
+    .logo{width:46px;height:46px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;color:white}
+    h1{font-size:18px;margin:0}
+    p.lead{margin:0;color:var(--muted);font-size:13px}
+    .controls{display:flex;gap:12px;align-items:center}
+    .search{background:var(--glass);border:1px solid rgba(255,255,255,0.03);padding:8px 12px;border-radius:10px;color:inherit}
+    .cart{position:relative;background:transparent;border:0;color:inherit;font-size:16px;cursor:pointer}
+    .cart-badge{position:absolute;right:-6px;top:-6px;background:#ff5252;color:white;border-radius:999px;padding:4px 7px;font-size:12px}
+
+    main{padding:28px;max-width:1100px;margin:24px auto}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
+
+    .card{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);padding:14px;border-radius:12px;display:flex;flex-direction:column;gap:10px}
+    .cover{height:150px;border-radius:8px;overflow:hidden;display:block;background:#091322;box-shadow:0 6px 18px rgba(2,6,23,0.6)}
+    .cover img{width:100%;height:100%;object-fit:cover;display:block}
+    .meta{display:flex;flex-direction:column;gap:6px}
+    .title{font-weight:700;font-size:15px}
+    .author{font-size:13px;color:var(--muted)}
+    .desc{font-size:13px;color:var(--muted);line-height:1.3}
+    .tags{display:flex;gap:8px;flex-wrap:wrap}
+    .tag{font-size:12px;padding:6px 8px;border-radius:999px;background:rgba(255,255,255,0.03);color:var(--muted)}
+
+    .buy-row{display:flex;justify-content:space-between;align-items:center;margin-top:auto}
+    .price{font-weight:700}
+    .buy{background:linear-gradient(90deg,var(--accent),#0ea5a4);border:0;color:white;padding:8px 12px;border-radius:10px;cursor:pointer}
+
+    footer{max-width:1100px;margin:10px auto;color:var(--muted);font-size:13px;text-align:center}
+
+    /* modal */
+    .modal{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(2,6,23,0.6);visibility:hidden;opacity:0;transition:opacity .18s,visibility .18s}
+    .modal.show{visibility:visible;opacity:1}
+    .modal-card{background:var(--card);padding:18px;border-radius:12px;min-width:280px;max-width:420px;text-align:center}
+    .modal-card h3{margin:0 0 8px 0}
+    .modal-card button{margin-top:12px;padding:8px 12px;border-radius:8px;border:0;background:var(--accent);color:white;cursor:pointer}
+
+    @media (max-width:520px){header{padding:14px}main{padding:14px}} 
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">PB</div>
+      <div>
+        <h1>Programming Books — Mini Store</h1>
+      
+      </div>
+    </div>
+
+    <div class="controls">
+      <input id="search" class="search" placeholder="Search by title, author, or tag" />
+      <button class="cart" id="openCart">Cart 🛒 <span class="cart-badge" id="cartCount">0</span></button>
+    </div>
+  </header>
+
+  <main>
+    <section class="grid" id="booksGrid">
+
+    </section>
+  </main>
+
+  <footer>
+    <div></div>
+  </footer>
+
+  <div class="modal" id="modal">
+    <div class="modal-card">
+      <h3 id="modalTitle">Added to cart</h3>
+      <p id="modalBody">Book added to your cart.</p>
+      <div style="display:flex;gap:10px;justify-content:center">
+        <button id="goToCart">View Cart</button>
+        <button id="closeModal" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:inherit">Continue</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const books = [
+      {id:1,title:'Clean Code: A Handbook of Agile Software Craftsmanship',author:'Robert C. Martin',price:24.99,cover:'https://picsum.photos/seed/cleancode/600/900',tags:['Software Engineering','Best Practices'],desc:'A guide to writing clean, maintainable code.'},
+      {id:2,title:'You Don\'t Know JS Yet (2nd Edition)',author:'Kyle Simpson',price:19.99,cover:'https://picsum.photos/seed/ydkjs/600/900',tags:['JavaScript','Advanced'],desc:'Deep dive into core mechanisms of JavaScript.'},
+      {id:3,title:'Introduction to Algorithms',author:'Thomas H. Cormen',price:39.99,cover:'https://picsum.photos/seed/algorithms/600/900',tags:['Algorithms','Theory'],desc:'Comprehensive textbook on algorithms and data structures.'},
+      {id:4,title:'Design Patterns: Elements of Reusable Object-Oriented Software',author:'Erich Gamma',price:29.50,cover:'https://picsum.photos/seed/designpatterns/600/900',tags:['Architecture','OO'],desc:'Classic book on software design patterns.'},
+      {id:5,title:'The Pragmatic Programmer',author:'Andrew Hunt & David Thomas',price:22.00,cover:'https://picsum.photos/seed/pragmatic/600/900',tags:['Software Engineering','Career'],desc:'Practical advice for modern software developers.'},
+      {id:6,title:'Deep Learning',author:'Ian Goodfellow, Yoshua Bengio, Aaron Courville',price:45.00,cover:'https://picsum.photos/seed/deeplearning/600/900',tags:['Machine Learning','AI'],desc:'Foundational text on deep learning methods.'}
+    ];
+
+    const grid = document.getElementById('booksGrid');
+    const cartCount = document.getElementById('cartCount');
+    const modal = document.getElementById('modal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalBody = document.getElementById('modalBody');
+    const search = document.getElementById('search');
+
+    function renderBooks(list){
+      grid.innerHTML = '';
+      list.forEach(b=>{
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <a class="cover" href="#" onclick="return false"><img src="${b.cover}" alt="${b.title} cover"></a>
+          <div class="meta">
+            <div class="title">${b.title}</div>
+            <div class="author">by ${b.author}</div>
+            <div class="desc">${b.desc}</div>
+            <div class="tags">${b.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+          </div>
+          <div class="buy-row">
+            <div class="price">$${b.price.toFixed(2)}</div>
+            <button class="buy" data-id="${b.id}">Buy</button>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+      // attach events
+      document.querySelectorAll('.buy').forEach(btn=>btn.addEventListener('click', onBuy));
+    }
+
+    function getCart(){
+      try{ return JSON.parse(localStorage.getItem('pb_cart')||'[]'); } catch(e){ return [] }
+    }
+    function saveCart(c){ localStorage.setItem('pb_cart', JSON.stringify(c)); updateCartCount(); }
+    function updateCartCount(){ const c=getCart(); cartCount.textContent = c.reduce((s,i)=>s+i.qty,0); }
+
+    function onBuy(e){
+      const id = Number(e.currentTarget.dataset.id);
+      const book = books.find(b=>b.id===id);
+      const cart = getCart();
+      const existing = cart.find(x=>x.id===id);
+      if(existing) existing.qty += 1; else cart.push({id:book.id,title:book.title,price:book.price,qty:1});
+      saveCart(cart);
+      modalTitle.textContent = 'Added to cart';
+      modalBody.textContent = `\"${book.title}\" has been added to your cart.`;
+      modal.classList.add('show');
+    }
+
+    document.getElementById('closeModal').addEventListener('click', ()=>modal.classList.remove('show'));
+    document.getElementById('goToCart').addEventListener('click', ()=>{
+      modal.classList.remove('show');
+      showCartPage();
+    });
+
+    function showCartPage(){
+      const cart = getCart();
+      const content = cart.length ? cart.map(item=>`${item.qty} × ${item.title} — $${(item.price*item.qty).toFixed(2)}`).join('\n') + '\n\nTotal: $' + cart.reduce((s,i)=>s+i.price*i.qty,0).toFixed(2) : 'Your cart is empty.';
+      alert(content);
+    }
+
+    document.getElementById('openCart').addEventListener('click', showCartPage);
+
+    // search
+    search.addEventListener('input', ()=>{
+      const q = search.value.trim().toLowerCase();
+      if(!q) return renderBooks(books);
+      const filtered = books.filter(b=> (b.title+b.author+b.tags.join(' ')+b.desc).toLowerCase().includes(q));
+      renderBooks(filtered);
+    });
+
+    // initial
+    renderBooks(books);
+    updateCartCount();
+  </script>
+</body>
+</html>
